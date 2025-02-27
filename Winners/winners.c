@@ -4,14 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-void add_record(const char* filename)
+void add_record(FILE* file)
 {
-	FILE* file = fopen(filename, "ab");
-	if (!file) {
-		printf("Error opening file!");
-		return;
-	}
-
 	Winner winner;
 
 	printf("Enter full name: ");
@@ -36,23 +30,28 @@ void add_record(const char* filename)
 
 
 	fwrite(&winner, sizeof(Winner), 1, file);
-	fclose(file);
 	printf("Record added!");
 }
 
-void print_records(const char* filename) {
-	FILE* file = fopen(filename, "rb");
+void print_records(FILE* file) {
 	if (!file) {
 		printf("Error opening file!\n");
 		return;
 	}
 
-
+	fseek(file, 0, SEEK_SET);
 	Winner winner;
 	printf("%-30s %-10s %-20s %-15s %-5s\n", "Full Name", "School", "Region", "Subject", "Year");
 	printf("-------------------------------------------------------------------------------\n");
 	while (fread(&winner, sizeof(Winner), 1, file)) {
 		printf("%-30s %-10d %-20s %-15s %-5d\n", winner.full_name, winner.school_number, winner.region, winner.subject, winner.year);
 	}
-	fclose(file);
+}
+
+Winner arr[] = { {"Adam", 1, "Tver", "Math", 1}};
+
+void print_prefilled_array(FILE* file) {
+	for (int i = 0; i < (sizeof(arr) / sizeof(Winner)); ++i) {
+		fwrite(&arr[i], sizeof(Winner), 1, file);
+	}
 }

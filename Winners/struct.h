@@ -1,6 +1,5 @@
 #pragma once
-#ifndef DATABASE_H
-#define DATABASE_H
+#include <stdio.h>
 
 #define MAX_NAME 50
 #define MAX_REGION 50
@@ -15,10 +14,10 @@ typedef struct {
 	int year;
 } Winner;
 
-void add_record(const char* filename);
-void delete_record(const char* filename);
-void search_record(const char* filename);
-void edit_record(const char* filename, int index);
-void print_records(const char* filename);
+void add_record(FILE* file);
+void delete_record(FILE* file);
+void search_record(FILE* file);
+void edit_record(FILE* file, int index);
+void print_records(FILE* file);
+void print_prefilled_array(FILE* file);
 
-#endif 
